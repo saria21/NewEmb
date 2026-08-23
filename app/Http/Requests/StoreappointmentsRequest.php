@@ -28,7 +28,7 @@ class StoreappointmentsRequest extends FormRequest
             "applicant_id" => ["required", "integer", "exists:visa_applicants,applicant_id"],
 
             // 🟢 ChatGPT Fix: Ensures the appointment is tied to a valid registered citizen profile
-            "citizen_id" => ["required", "integer", "exists:citizen,citizen_id"],
+            "citizen_id" => ["required", "integer", "exists:citizens,citizen_id"],
 
             // 🟢 Ensures the staff member field is provided and exists in your staff table
             "interviewer_staff_id" => ["required", "integer", "exists:staff,staff_id"],

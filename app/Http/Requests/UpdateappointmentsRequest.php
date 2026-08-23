@@ -26,7 +26,7 @@ class UpdateappointmentsRequest extends FormRequest
         return [
             // 🟢 Swaps "required" for "sometimes" to allow flexible, partial data modifications
             "applicant_id" => ["sometimes", "integer", "exists:visa_applicants,applicant_id"],
-            "citizen_id" => ["sometimes", "integer", "exists:citizen,citizen_id"],
+            "citizen_id" => ["sometimes", "integer", "exists:citizens,citizen_id"],
             "interviewer_staff_id" => ["sometimes", "integer", "exists:staff,staff_id"],
             "purpose_of_visit" => ["sometimes", "string", "in:Visa Interview,Passport Renewal,Document Attestation,Notary Services"],
             "appointment_date" => ["sometimes", "date"],

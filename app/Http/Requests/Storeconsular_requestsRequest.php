@@ -31,7 +31,8 @@ class Storeconsular_requestsRequest extends FormRequest
             "request_type" => ["required", "string", "in:Passport Renewal,Birth Registration,Emergency Assistance"],
 
             // 🟢 Restricts tracking milestones to official processing sequences
-            "status" => ["required", "string", "in:Received", "In Progress", "Completed"],
+            "request_status" => ["required", "string", "in:Received,In Progress,Completed"],
+
         ];
     }
 }

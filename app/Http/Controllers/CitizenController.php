@@ -8,8 +8,8 @@ use App\Http\Requests\StorecitizenRequest;
 use App\Http\Requests\UpdatecitizenRequest;
 use App\Http\Resources\CitizenResource;
 use Illuminate\Http\JsonResponse;
+class CitizenController extends Controller
 
-class citizenController extends Controller
 {
     /**
      * GET /api/citizens

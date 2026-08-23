@@ -27,7 +27,8 @@ class Updateconsular_requestsRequest extends FormRequest
             // 🟢 Swaps "required" for "sometimes" to handle optional, partial file modifications
             "citizen_id" => ["sometimes", "integer", "exists:citizens,citizen_id"],
             "request_type" => ["sometimes", "string", "in:Passport Renewal,Birth Registration,Emergency Assistance"],
-            "status" => ["sometimes", "string", "in:Received", "In Progress", "Completed"],
+            "request_status" => ["sometimes", "string", "in:Received,In Progress,Completed"],
+
         ];
     }
 }

@@ -3,9 +3,13 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// 🟢 Both controller imports pointing strictly into your modern Api folder namespace
+// 🟢 All controller imports pointing strictly into your modern Api folder namespace
 use App\Http\Controllers\Api\CitizenController;
 use App\Http\Controllers\Api\VisaApplicationsController;
+use App\Http\Controllers\Api\AppointmentsController;
+use App\Http\Controllers\Api\ConsularRequestController;
+use App\Http\Controllers\Api\DepartmentController;
+
 
 Route::prefix("v1")->group(function() {
 
@@ -14,5 +18,14 @@ Route::prefix("v1")->group(function() {
     
     // 2. Visa Applications Relational Tracking Pipelines
     Route::apiResource('visa-applications', VisaApplicationsController::class);
+
+    // 3. Embassy Appointment Scheduling Endpoints
+    Route::apiResource('appointments', AppointmentsController::class);
+
+    // 4. Diplomatic Consular Paperwork & Notary Trackers
+    Route::apiResource('consular-requests', ConsularRequestController::class);
+
+    // 5. Infrastructure Department Sector Managers
+    Route::apiResource('departments', DepartmentController::class);
 
 });

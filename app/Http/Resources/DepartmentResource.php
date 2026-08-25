@@ -15,16 +15,11 @@ class DepartmentResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            // 🟢 Maps the unique primary key for the structural embassy department
             "department_id" => $this->department_id,
-
-            // 🟢 Exposes the foreign key linking this sector to a physical facility anchor
             "building_id" => $this->building_id,
-
-            // 🟢 Displays the official division title (e.g. Visa Section, Consular Affairs)
-            "department_name" => $this->department_name,
-
-            // 🟢 Standard database tracking logs formatted into clear datetime segments
+            
+            // 🟢 THIS LINE FIXES IT: Tells Laravel to grab the real string out of the "name" column!
+            "department_name" => $this->name, 
             "created_at" => $this->created_at?->toDateTimeString(),
             "updated_at" => $this->updated_at?->toDateTimeString(),
         ];

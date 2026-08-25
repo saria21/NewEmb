@@ -25,7 +25,8 @@ class StoredepartmentRequest extends FormRequest
     {
         return [
             // 🟢 Ensures this sector is mapped back to a valid physical building/facility record
-            "building_id" => ["required", "integer", "exists:related_buildings,building_id"],
+            // FIXED: Looks up your true table name and its precise primary key column named 'id' from your schema
+            "building_id" => ["required", "integer", "exists:related_buildings,id"],
 
             // 🟢 Forces strict string properties for official embassy segment tracking names
             "department_name" => ["required", "string", "max:255"],

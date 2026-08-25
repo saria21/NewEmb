@@ -21,9 +21,11 @@ class StaffResource extends JsonResource
             // 🟢 Exposes the foreign key linking this worker to their active structural division
             "department_id" => $this->department_id,
 
-            // 🟢 Formats individual identity descriptor string components
-            "first_name" => $this->first_name,
-            "last_name" => $this->last_name,
+            // 🟢 FIXED: Maps directly to your real database schema full_name column!
+            "full_name" => $this->full_name,
+
+            // 🟢 FIXED: Captures the precise professional assignment role from your schema
+            "job_title" => $this->job_title,
 
             // 🟢 Displays the assigned operational workspace role (e.g. Visa Officer, Security Guard)
             "role" => $this->role,

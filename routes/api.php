@@ -9,7 +9,14 @@ use App\Http\Controllers\Api\VisaApplicationsController;
 use App\Http\Controllers\Api\AppointmentsController;
 use App\Http\Controllers\Api\ConsularRequestController;
 use App\Http\Controllers\Api\DepartmentController;
+use App\Http\Controllers\Api\StaffController;
+use App\Http\Controllers\Api\VisitsLogController;
 
+/*
+|--------------------------------------------------------------------------
+| API Routes Configuration Hub
+|--------------------------------------------------------------------------
+*/
 
 Route::prefix("v1")->group(function() {
 
@@ -27,5 +34,11 @@ Route::prefix("v1")->group(function() {
 
     // 5. Infrastructure Department Sector Managers
     Route::apiResource('departments', DepartmentController::class);
+
+    // 6. Internal Embassy Staff & Structural Worker Directories
+    Route::apiResource('staff', StaffController::class);
+
+    // 7. Compound Compound Access Logs & Security Checkpoints
+    Route::apiResource('visits-logs', VisitsLogController::class);
 
 });

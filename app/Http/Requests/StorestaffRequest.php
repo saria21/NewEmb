@@ -12,7 +12,7 @@ class StorestaffRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // 🟢 UNLOCKED: Allows the API to accept incoming new staff registrations
+        // 🟢 UNLOCKED: Allows internal administrative panels to save fresh staff members
         return true;
     }
 
@@ -28,11 +28,13 @@ class StorestaffRequest extends FormRequest
             "department_id" => ["required", "integer", "exists:departments,department_id"],
 
             // 🟢 Standard layout parameters for the employee's legal name title
-            "first_name" => ["required", "string", "max:100"],
-            "last_name" => ["required", "string", "max:100"],
+            "full_name" => ["required", "string", "max:100"],
+
+            // 🟢 FIXED: Added missing field to match your physical database schema column!
+            "job_title" => ["required", "string", "max:100"],
 
             // 🟢 Validates that their tracking assignment role strictly matches your physical embassy permission paths
-            "role" => ["required", "string", "in:Security Guard,Visa Officer,Consular Officer,Interviewer,Ambassador"],
+            "role" => ["required", "string", "in:Security Guard,Visa Officer,Consular Officer,Interviewer,Ambassador,Admin"],
         ];
     }
 }

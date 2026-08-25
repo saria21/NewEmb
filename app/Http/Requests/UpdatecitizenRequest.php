@@ -12,7 +12,6 @@ class UpdatecitizenRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // 🟢 UNLOCKED
         return true;
     }
 
@@ -23,16 +22,21 @@ class UpdatecitizenRequest extends FormRequest
      */
     public function rules(): array
     {
+        // 🟢 Safely extract the raw integer ID number out of your route bar parameters
+        $citizenId = $this->route('citizen')?->citizen_id ?? $this->citizen;
+
         return [
-            // 🟢 Swaps "required" for "sometimes" for flexible edits. 
-            // 🟢 The unique rule ignores the current citizen's ID so it doesn't trigger a false error when saving their own passport!
-            "passport_number" => ["sometimes", "string", "max:50", "unique:citizens,passport_number," . $this->route('citizen')?->citizen_id],
+            // 🟢 FIXED: Passes strictly the integer number string into the exclusion slot to avoid SQL syntax corruption
+            "passport_number" => [
+                "sometimes", 
+                "string", 
+                "max:50", 
+                "unique:citizens,passport_number," . $citizenId . ",citizen_id"
+            ],
 
-            // 🟢 Optional profile text edits
             "full_name" => ["sometimes", "string", "max:255"],
-
-            // 🟢 Optional address location updates
-            "current_address" => ["sometimes", "string", "max:500"],
+            
+            "current_address" => ["sometimes", "string", "max:255"],
         ];
     }
 }

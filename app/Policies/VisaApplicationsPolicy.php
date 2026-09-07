@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\User;
+use App\Models\staff;
 use App\Models\visa_applications;
 use Illuminate\Auth\Access\Response;
 
@@ -11,56 +11,56 @@ class VisaApplicationsPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(staff $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, visa_applications $visaApplications): bool
+    public function view(staff $user, visa_applications $visaApplications): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(staff $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, visa_applications $visaApplications): bool
+    public function update(staff $user, visa_applications $visaApplications): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, visa_applications $visaApplications): bool
+    public function delete(staff $user, visa_applications $visaApplications): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, visa_applications $visaApplications): bool
+    public function restore(staff $user, visa_applications $visaApplications): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, visa_applications $visaApplications): bool
+    public function forceDelete(staff $user, visa_applications $visaApplications): bool
     {
-        return false;
+        return true;
     }
 }

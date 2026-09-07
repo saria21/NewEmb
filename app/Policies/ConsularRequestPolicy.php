@@ -2,8 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\User;
+
 use App\Models\consular_request;
+use App\Models\staff;
 use Illuminate\Auth\Access\Response;
 
 class ConsularRequestPolicy
@@ -11,56 +12,56 @@ class ConsularRequestPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(staff $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, consular_request $consularRequest): bool
+    public function view(staff $user, consular_request $consularRequest): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(staff $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, consular_request $consularRequest): bool
+    public function update(staff $user, consular_request $consularRequest): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, consular_request $consularRequest): bool
+    public function delete(staff $user, consular_request $consularRequest): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, consular_request $consularRequest): bool
+    public function restore(staff $user, consular_request $consularRequest): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, consular_request $consularRequest): bool
+    public function forceDelete(staff $user, consular_request $consularRequest): bool
     {
-        return false;
+        return true;
     }
 }

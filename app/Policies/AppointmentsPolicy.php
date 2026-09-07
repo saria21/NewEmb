@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Policies;
-
-use App\Models\User;
 use App\Models\appointments;
+use App\Models\staff;
 use Illuminate\Auth\Access\Response;
 
 class AppointmentsPolicy
@@ -11,56 +10,56 @@ class AppointmentsPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(staff $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, appointments $appointments): bool
+    public function view(staff $user, appointments $appointments): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(staff $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, appointments $appointments): bool
+    public function update(staff $user, appointments $appointments): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, appointments $appointments): bool
+    public function delete(staff $user, appointments $appointments): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, appointments $appointments): bool
+    public function restore(staff $user, appointments $appointments): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, appointments $appointments): bool
+    public function forceDelete(staff $user, appointments $appointments): bool
     {
-        return false;
+        return true;
     }
 }

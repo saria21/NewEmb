@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\auth;
+use App\Models\staff;
 use Illuminate\Auth\Access\Response;
 
 class AuthPolicy
@@ -11,56 +11,56 @@ class AuthPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(staff $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, auth $auth): bool
+    public function view(staff $user, auth $auth): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(staff $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, auth $auth): bool
+    public function update(staff $user, auth $auth): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, auth $auth): bool
+    public function delete(staff $user, auth $auth): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, auth $auth): bool
+    public function restore(staff $user, auth $auth): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, auth $auth): bool
+    public function forceDelete(staff $user, auth $auth): bool
     {
-        return false;
+        return true;
     }
 }

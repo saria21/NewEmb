@@ -27,7 +27,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->registration() // 🟢 تفعيل شاشة إنشاء الحساب الفخمة القياسية والمستقرة
+            // 🟢 تم إغلاق التسجيل الخارجي لحماية النظام الحكومي للسفارة
+            // ->registration() 
             ->authGuard('web')
             ->authPasswordBroker('users')
             ->colors([
@@ -40,8 +41,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // 🟢 تم تنظيف الداشبورد ومسح الكروت الافتراضية بنجاح لاستقبال تقارير الأستاذ
             ])
             ->middleware([
                 EncryptCookies::class,

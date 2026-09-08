@@ -9,11 +9,12 @@ use App\Filament\Widgets\ApplicantVisaFrequency;
 
 class Reports extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-chart-bar'; // أيقونة رسم بياني فخمة
-    protected static ?string $navigationLabel = 'Reports & Analytics'; // الاسم الظاهر بالقائمة
+    protected static ?string $navigationIcon = 'heroicon-o-document-chart-bar'; 
+    protected static ?string $navigationLabel = 'Reports & Analytics'; 
+    protected static ?int $navigationSort = 99; // الحفاظ على موقعه بأسفل القائمة الجانبية
     protected static string $view = 'filament.pages.reports';
+    
 
-    // 🟢 ربط وحقن التقارير الثلاثة لتظهر داخل هذه الصفحة المخصصة حصراً
     protected function getHeaderWidgets(): array
     {
         return [
@@ -23,3 +24,4 @@ class Reports extends Page
         ];
     }
 }
+

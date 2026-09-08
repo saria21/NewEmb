@@ -7,4 +7,3 @@
         </div>
     </form>
 </x-filament-panels::page>
-protected static ?int $navigationSort = 100; // 🟢 رقم كبير جداً لضمان نزولها آخر شيء بالأسفل

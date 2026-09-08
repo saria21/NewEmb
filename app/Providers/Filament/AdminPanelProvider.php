@@ -42,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                // 🟢 تم تنظيف الداشبورد ومسح الكروت الافتراضية بنجاح لاستقبال تقارير الأستاذ
+                // 🟢 تم تنظيف الداشبورد ومسح الكروت الافتراضية بنجاح
             ])
             ->middleware([
                 EncryptCookies::class,

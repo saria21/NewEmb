@@ -11,14 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('auths', function (Blueprint $table) {
-            $table->id('auth_id'); 
-            $table->foreignId('staff_id')->constrained('staff', 'staff_id')->onDelete('cascade');
-            $table->integer('role_id');
-            $table->string('password_hash');
-            $table->dateTime('last_login')->nullable();
-            $table->timestamps();
-        });
+        // 🟢 تم إفراغ الجدول نهائياً لأن بيانات الحماية دمجت في جدول الستاف
     }
 
     /**
@@ -26,6 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('auths');
+        // 
     }
 };

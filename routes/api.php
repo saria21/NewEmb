@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ConsularRequestController;
 use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\StaffController;
 use App\Http\Controllers\Api\VisitsLogController;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,13 @@ use App\Http\Controllers\Api\VisitsLogController;
 */
 
 Route::prefix("v1")->group(function() {
+    Route::post('auth/register', [AuthController::class, 'register']);
+    Route::post('auth/login', [AuthController::class, 'login']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('auth/logout', [AuthController::class, 'logout']);
+    });
+
 
     // 1. Citizen Registry Log Directory Channels
     Route::apiResource('citizens', CitizenController::class);

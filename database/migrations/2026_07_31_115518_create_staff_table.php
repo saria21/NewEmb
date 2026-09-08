@@ -13,12 +13,21 @@ return new class extends Migration
     {
      
         Schema::create('staff', function (Blueprint $table) {
-            $table->id('staff_id'); // Primary Key matching your ERD
+            $table->id('staff_id');
+        
             $table->string('full_name');
             $table->string('job_title');
             $table->string('role');
-            $table->unsignedBigInteger('department_id'); 
-            
+        
+            $table->foreignId('department_id')
+                ->constrained('departments', 'department_id')
+                ->onDelete('cascade');
+        
+            $table->string('email')->unique();
+            $table->string('password');
+        
+            $table->rememberToken();
+        
             $table->timestamps();
         });
         Schema::create('visits_log', function (Blueprint $table) {

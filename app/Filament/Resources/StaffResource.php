@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\StaffResource\Pages;
 use App\Filament\Resources\StaffResource\RelationManagers;
-use App\Models\Staff;
+use App\Models\staff;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class StaffResource extends Resource
 {
-    protected static ?string $model = Staff::class;
+    protected static ?string $model =staff::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

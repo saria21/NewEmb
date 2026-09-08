@@ -3,19 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ConsularRequestResource\Pages;
-use App\Filament\Resources\ConsularRequestResource\RelationManagers;
-use App\Models\ConsularRequest;
+use App\Models\consular_request as ConsularRequestModel;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ConsularRequestResource extends Resource
 {
-    protected static ?string $model = ConsularRequest::class;
+    protected static ?string $model = ConsularRequestModel::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,7 +20,32 @@ class ConsularRequestResource extends Resource
     {
         return $form
             ->schema([
-                //
+                // 🟢 منسدلة الخيارات الثابتة لنوع الطلب القنصلي
+                Forms\Components\Select::make('request_type')
+                    ->label('Request Type')
+                    ->options([
+                        'Passport Renewal' => 'Passport Renewal',
+                        'Visa Application' => 'Visa Application',
+                        'Document Attestation' => 'Document Attestation',
+                        'Notary Services' => 'Notary Services',
+                    ])
+                    ->required(),
+
+                // 🟢 منسدلة الخيارات الثابتة لحالة الطلب
+                Forms\Components\Select::make('request_status')
+                    ->label('Request Status')
+                    ->options([
+                        'Pending' => 'Pending',
+                        'Approved' => 'Approved',
+                        'Rejected' => 'Rejected',
+                    ])
+                    ->required(),
+
+                // 🟢 رقم معرّف المواطن
+                Forms\Components\TextInput::make('citizen_id')
+                    ->label('Citizen ID')
+                    ->numeric()
+                    ->required(),
             ]);
     }
 
@@ -31,7 +53,34 @@ class ConsularRequestResource extends Resource
     {
         return $table
             ->columns([
-                //
+                // 🟢 معرّف الطلب الأساسي
+                Tables\Columns\TextColumn::make('request_id')
+                    ->label('ID')
+                    ->sortable(),
+
+                // 🟢 رقم المواطن (مطابق لشكل الـ DBeaver بالظبط)
+                Tables\Columns\TextColumn::make('citizen_id')
+                    ->label('Citizen ID')
+                    ->sortable()
+                    ->searchable(),
+
+                // 🟢 نوع الطلب
+                Tables\Columns\TextColumn::make('request_type')
+                    ->label('Request Type')
+                    ->searchable()
+                    ->sortable(),
+
+                // 🟢 حالة الطلب مع تلوين فخم لكل حالة (Badge)
+                Tables\Columns\TextColumn::make('request_status')
+                    ->label('Status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Approved' => 'success',
+                        'Pending' => 'warning',
+                        'Rejected' => 'danger',
+                        default => 'gray',
+                    })
+                    ->searchable(),
             ])
             ->filters([
                 //

@@ -23,13 +23,16 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('admin')
-            ->path('admin')
-            ->login()
-            ->colors([
-                'primary' => Color::Amber,
-            ])
+        ->default()
+        ->id('admin')
+        ->path('admin')
+        ->login()
+        ->authGuard('web')            // 🟢 السطر الأول الجديد
+        ->authPasswordBroker('users') // 🟢 السطر الثاني الجديد
+        ->colors([
+            'primary' => Color::Amber,
+        ])
+
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

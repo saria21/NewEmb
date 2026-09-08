@@ -3,19 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CitizenResource\Pages;
-use App\Filament\Resources\CitizenResource\RelationManagers;
-use App\Models\Citizen;
+use App\Models\citizen as CitizenModel; // 🟢 قراءة موديل المواطن الصحيح المفرد
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CitizenResource extends Resource
 {
-    protected static ?string $model = Citizen::class;
+    protected static ?string $model = CitizenModel::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,7 +20,18 @@ class CitizenResource extends Resource
     {
         return $form
             ->schema([
-                //
+                // 🟢 صناديق الإدخال المتوافقة بالملي مع حقول قاعدة البيانات الحقيقية
+                Forms\Components\TextInput::make('full_name')
+                    ->label('Full Name')
+                    ->required(),
+
+                Forms\Components\TextInput::make('passport_number')
+                    ->label('Passport Number')
+                    ->required(),
+
+                Forms\Components\TextInput::make('current_address')
+                    ->label('Current Address')
+                    ->required(),
             ]);
     }
 
@@ -31,12 +39,33 @@ class CitizenResource extends Resource
     {
         return $table
             ->columns([
-                //
+                // 🟢 عرض المعرّف الأساسي للمواطن
+                Tables\Columns\TextColumn::make('citizen_id')
+                    ->label('ID')
+                    ->sortable(),
+
+                // 🟢 عرض الاسم الكامل للمواطن
+                Tables\Columns\TextColumn::make('full_name')
+                    ->label('Full Name')
+                    ->searchable()
+                    ->sortable(),
+
+                // 🟢 عرض رقم الجواز (بدل الإيميل القديم الفاضي)
+                Tables\Columns\TextColumn::make('passport_number')
+                    ->label('Passport Number')
+                    ->searchable()
+                    ->sortable(),
+
+                // 🟢 عرض العنوان الحالي (بدل الهاتف القديم الفاضي)
+                Tables\Columns\TextColumn::make('current_address')
+                    ->label('Current Address')
+                    ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
+                // 🟢 تفعيل زر التعديل والحذف بشكل مستقر
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

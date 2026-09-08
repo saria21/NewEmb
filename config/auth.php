@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\staff;
-use App\Models\User;
 
 return [
 

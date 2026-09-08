@@ -29,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             // 🟢 تم إغلاق التسجيل الخارجي لحماية النظام الحكومي للسفارة
             // ->registration() 
+            ->profile() // 🟢 تفعيل واجهة تعديل الملف الشخصي والباسورد القياسية للفيلمنت
             ->authGuard('web')
             ->authPasswordBroker('users')
             ->colors([

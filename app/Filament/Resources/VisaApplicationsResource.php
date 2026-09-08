@@ -3,19 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\VisaApplicationsResource\Pages;
-use App\Filament\Resources\VisaApplicationsResource\RelationManagers;
-use App\Models\VisaApplications;
+use App\Models\visa_applications as VisaApplicationsModel; // 🟢 قراءة الموديل الصغير الصحيح بالشحطة التحتية
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class VisaApplicationsResource extends Resource
 {
-    protected static ?string $model = VisaApplications::class;
+    protected static ?string $model = VisaApplicationsModel::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,7 +20,31 @@ class VisaApplicationsResource extends Resource
     {
         return $form
             ->schema([
-                //
+                // 🟢 منسدلة خيارات ثابتة وذكية لأنواع الفيزا المزرعة بالـ DBeaver
+                Forms\Components\Select::make('visa_type')
+                    ->label('Visa Type')
+                    ->options([
+                        'Business' => 'Business',
+                        'Work' => 'Work',
+                        'Student' => 'Student',
+                    ])
+                    ->required(),
+
+                // 🟢 منسدلة خيارات ثابتة ملونة لحالة طلب الفيزا
+                Forms\Components\Select::make('application_status')
+                    ->label('Application Status')
+                    ->options([
+                        'Pending' => 'Pending',
+                        'Approved' => 'Approved',
+                        'Rejected' => 'Rejected',
+                    ])
+                    ->required(),
+
+                // 🟢 رقم معرّف المتقدم بطلب الفيزا
+                Forms\Components\TextInput::make('applicant_id')
+                    ->label('Applicant ID')
+                    ->numeric()
+                    ->required(),
             ]);
     }
 
@@ -31,7 +52,34 @@ class VisaApplicationsResource extends Resource
     {
         return $table
             ->columns([
-                //
+                // 🟢 معرّف الطلب الأساسي مطابق للـ DBeaver بالظبط
+                Tables\Columns\TextColumn::make('application_id')
+                    ->label('ID')
+                    ->sortable(),
+
+                // 🟢 رقم مقدم الطلب متراص تماماً كشكل الـ DBeaver
+                Tables\Columns\TextColumn::make('applicant_id')
+                    ->label('Applicant ID')
+                    ->sortable()
+                    ->searchable(),
+
+                // 🟢 نوع الفيزا (Business, Work, Student...)
+                Tables\Columns\TextColumn::make('visa_type')
+                    ->label('Visa Type')
+                    ->searchable()
+                    ->sortable(),
+
+                // 🟢 حالة طلب الفيزا مع تلوين فخم جداً (Badge)
+                Tables\Columns\TextColumn::make('application_status')
+                    ->label('Status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Approved' => 'success',
+                        'Pending' => 'warning',
+                        'Rejected' => 'danger',
+                        default => 'gray',
+                    })
+                    ->searchable(),
             ])
             ->filters([
                 //

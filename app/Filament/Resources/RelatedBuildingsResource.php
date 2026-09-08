@@ -3,19 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RelatedBuildingsResource\Pages;
-use App\Filament\Resources\RelatedBuildingsResource\RelationManagers;
-use App\Models\RelatedBuildings;
+use App\Models\related_buildings as RelatedBuildingsModel; // 🟢 قراءة الموديل الصغير الصحيح بالشحطة التحتية
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RelatedBuildingsResource extends Resource
 {
-    protected static ?string $model = RelatedBuildings::class;
+    protected static ?string $model = RelatedBuildingsModel::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,7 +20,10 @@ class RelatedBuildingsResource extends Resource
     {
         return $form
             ->schema([
-                //
+                // 🟢 صندوق نصي لإدخال اسم المبنى التابع
+                Forms\Components\TextInput::make('name')
+                    ->label('Building Name')
+                    ->required(),
             ]);
     }
 
@@ -31,7 +31,16 @@ class RelatedBuildingsResource extends Resource
     {
         return $table
             ->columns([
-                //
+                // 🟢 عرض رقم المعرف للمبنى (id) متل الـ DBeaver بالظبط
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable(),
+
+                // 🟢 عرض اسم المبنى (Embassy of Japan, Japan Center...)
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Building Name')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //

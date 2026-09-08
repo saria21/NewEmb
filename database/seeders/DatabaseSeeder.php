@@ -7,7 +7,9 @@ use App\Models\department;
 use App\Models\staff;
 use App\Models\visa_applications;
 use App\Models\appointments;
+use App\Models\visits_logs;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,35 +18,139 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Create the 3 specific Syrian-Japanese buildings explicitly
-        $embassy = related_buildings::create(['name' => 'Embassy of Japan in Damascus']);
-        $literature = related_buildings::create(['name' => 'Japanese Literature Department at Damascus University']);
-        $academic = related_buildings::create(['name' => 'Japan Center for Academic Cooperation in Aleppo']);
+        /*
+        |--------------------------------------------------------------------------
+        | 1. Related Buildings
+        |--------------------------------------------------------------------------
+        */
 
-        // 2. Create Departments with explicit real-world operational definitions
-        $visaDept = department::create(['name' => 'Visa Section', 'building_id' => $embassy->id]);
-        $consularDept = department::create(['name' => 'Consular Services', 'building_id' => $embassy->id]);
-        
-        // Aleppo Center tracks certificate-seeking language programs
-        $eduDept = department::create(['name' => 'JLPT Language Certification Track', 'building_id' => $academic->id]);
-        
-        // Damascus University tracks full higher-education degree tracks
-        $langDept = department::create(['name' => 'Japanese Literature Degree Program', 'building_id' => $literature->id]);
+        $embassy = related_buildings::create([
+            'name' => 'Embassy of Japan in Damascus',
+        ]);
 
-        // 3. Create Staff and assign them strictly to their correct sections
-        $visaStaff = staff::factory()->count(4)->create(['department_id' => $visaDept->department_id, 'role' => 'Interviewer']);
-        $consularStaff = staff::factory()->count(3)->create(['department_id' => $consularDept->department_id, 'role' => 'Consular Officer']);
-        $academicStaff = staff::factory()->count(3)->create(['department_id' => $eduDept->department_id, 'role' => 'Admin']);
+        $literature = related_buildings::create([
+            'name' => 'Japanese Literature Department at Damascus University',
+        ]);
 
-        // 4. Create Visa Applications (Always belongs to visa staff/embassy environment)
-        visa_applications::factory()->count(15)->create();
+        $academic = related_buildings::create([
+            'name' => 'Japan Center for Academic Cooperation in Aleppo',
+        ]);
 
-        // 5. Create 20 Appointments (Forced to only use Embassy interviewers for Visa stuff)
+        /*
+        |--------------------------------------------------------------------------
+        | 2. Departments
+        |--------------------------------------------------------------------------
+        */
+
+        $visaDept = department::create([
+            'name' => 'Visa Section',
+            'building_id' => $embassy->id,
+        ]);
+
+        $consularDept = department::create([
+            'name' => 'Consular Services',
+            'building_id' => $embassy->id,
+        ]);
+
+        $eduDept = department::create([
+            'name' => 'JLPT Language Certification Track',
+            'building_id' => $academic->id,
+        ]);
+
+        $langDept = department::create([
+            'name' => 'Japanese Literature Degree Program',
+            'building_id' => $literature->id,
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | 3. Staff / Authentication Users
+        |--------------------------------------------------------------------------
+        |
+        | RegisterRequest permits only:
+        | Admin, Officer, Coordinator, Staff
+        |
+        | Every seeded staff member therefore uses one of those exact roles.
+        |
+        | Password is explicitly hashed here so the seed data is immediately
+        | usable for Laravel authentication and Sanctum login testing.
+        |
+        */
+
+        $visaStaff = collect();
+
+        for ($i = 1; $i <= 4; $i++) {
+            $visaStaff->push(
+                staff::factory()->create([
+                    'full_name' => "Visa Officer {$i}",
+                    'job_title' => 'Visa Officer',
+                    'role' => 'Officer',
+                    'department_id' => $visaDept->department_id,
+                    'email' => "visa.officer{$i}@embassy.test",
+                    'password' => Hash::make('password123'),
+                ])
+            );
+        }
+
+        $consularStaff = collect();
+
+        for ($i = 1; $i <= 3; $i++) {
+            $consularStaff->push(
+                staff::factory()->create([
+                    'full_name' => "Consular Staff {$i}",
+                    'job_title' => 'Consular Officer',
+                    'role' => 'Staff',
+                    'department_id' => $consularDept->department_id,
+                    'email' => "consular.staff{$i}@embassy.test",
+                    'password' => Hash::make('password123'),
+                ])
+            );
+        }
+
+        $academicStaff = collect();
+
+        for ($i = 1; $i <= 3; $i++) {
+            $academicStaff->push(
+                staff::factory()->create([
+                    'full_name' => "Academic Coordinator {$i}",
+                    'job_title' => 'Academic Coordinator',
+                    'role' => 'Coordinator',
+                    'department_id' => $eduDept->department_id,
+                    'email' => "academic.coordinator{$i}@embassy.test",
+                    'password' => Hash::make('password123'),
+                ])
+            );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | 4. Visa Applications
+        |--------------------------------------------------------------------------
+        */
+
+        visa_applications::factory()
+            ->count(15)
+            ->create();
+
+        /*
+        |--------------------------------------------------------------------------
+        | 5. Appointments
+        |--------------------------------------------------------------------------
+        |
+        | Visa Interviews -> Visa Section staff
+        | Other consular services -> Consular Services staff
+        |
+        */
+
         for ($i = 0; $i < 20; $i++) {
-            $purpose = fake()->randomElement(["Visa Interview", "Passport Renewal", "Document Attestation", "Notary Services"]);
-            
-            // Real-world rule: If it's a Visa Interview, it MUST go to a Visa Section staff member
-            if ($purpose === "Visa Interview") {
+            $purpose = fake()->randomElement([
+                'Visa Interview',
+                'Passport Renewal',
+                'Document Attestation',
+                'Notary Services',
+            ]);
+
+            if ($purpose === 'Visa Interview') {
                 $interviewer = $visaStaff->random();
             } else {
                 $interviewer = $consularStaff->random();
@@ -52,15 +158,21 @@ class DatabaseSeeder extends Seeder
 
             appointments::factory()->create([
                 'interviewer_staff_id' => $interviewer->staff_id,
-                'purpose_of_visit' => $purpose
+                'purpose_of_visit' => $purpose,
             ]);
         }
 
-        // 6. Create 15 visitor check-in logs tied across all staff members
+        /*
+        |--------------------------------------------------------------------------
+        | 6. Visitor Check-In Logs
+        |--------------------------------------------------------------------------
+        */
+
         $allStaff = staff::all();
+
         for ($i = 0; $i < 15; $i++) {
-            \App\Models\visits_logs::factory()->create([
-                'staff_id' => $allStaff->random()->staff_id
+            visits_logs::factory()->create([
+                'staff_id' => $allStaff->random()->staff_id,
             ]);
         }
     }

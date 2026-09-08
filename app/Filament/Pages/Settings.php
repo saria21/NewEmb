@@ -14,6 +14,8 @@ class Settings extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth'; // أيقونة الترس النظامية العالمية
     protected static ?string $navigationLabel = 'Settings'; // الاسم الظاهر بالقائمة الجانبية
+    protected static ?int $navigationSort = 100; // 🟢 رقم كبير جداً لضمان نزولها آخر شيء بالأسفل
+
     protected static ?string $title = 'Account Settings'; // العنوان بأعلى الصفحة
     protected static string $view = 'filament.pages.settings';
 
